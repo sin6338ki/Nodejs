@@ -14,7 +14,7 @@ const server = http.createServer(async (req, res) => {
 
   if (pathname === "/form") {
     const f = await fs.readFile("./Ex01.html");
-    res.writeHead(200, { "Context-Type": "text/html; charset=UTF-8" });
+    res.writeHead(200, { "Content-Type": "text/html; charset=UTF-8" });
     res.write(f);
     res.end();
   } else if (pathname === "/home") {

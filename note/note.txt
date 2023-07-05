@@ -1,0 +1,31 @@
+https://velog.io/@whdgh9595/TIL-%EB%8F%99%EA%B8%B0-%EB%B9%84%EB%8F%99%EA%B8%B0%EC%99%80-Node.js%EC%97%90%EC%84%9C%EC%9D%98-%EB%B9%84%EB%8F%99%EA%B8%B0%EC%B2%98%EB%A6%AC-%EB%B0%A9%EB%B2%95
+
+동기 vs 비동기
+- 동기 : 요청과 결과가 동시에 일어남
+        코드는 위에서 아래로 순차적으로 
+- 비동기 : 요청과 결과가 동시에 일어나지 않음
+            시간이 오래 걸리는 작업은 요청시 백그라운드에서 작업하고 있음
+            > 단점 : 실행순서가 보장되지 않는다. 
+
+비동기 처리 방식 
+1. 콜백함수
+2. promises
+3. then & catch
+4. async & await
+
+모듈 
+1. 파일 시스템 : fs (readFile : 파일 읽기)
+2. http 서버 : http
+3. url 관련 모듈 : url 
+ - url.parse : 원하는 부분 뽑아 쓸 수 있음. ex. url.parse.pathname / url.parse.query
+4. 쿼리스트링 : querystring - url 쿼리 스트링을 해석하고 포맷팅할 수 있다
+
+GET 요청 받을 때 - 쿼리에 데이터가 담아서 옴
+경로 : url.parse(req.url, true).pathname
+받는 데이터 : url.parse(req.url, true).query > 객체형태로 가지고 옴
+
+POST 요청 받을 때 
+받는 데이터 : data이벤트 호출 > end이벤트 (qs.parse 활용 객체 형태로 변환)
+
+같은 경로로 get, post 모두 보낼 때 
+: req.method로 구분
