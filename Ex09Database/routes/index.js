@@ -31,8 +31,55 @@ router.get("/select", (req, res) => {
 });
 
 router.get("/select/:id", (req, res) => {
-  console.log(req.params);
-  // let sql = "select * from member where id = ";
+  let id = req.params.id;
+  let sql = "select * from member where id = ?";
+
+  // [] : ?에 들어갈 값들을 순서대로 작성
+  conn.query(sql, [id], function (err, rows, fields) {
+    console.log(rows);
+
+    //비동기통신 > 데이터만 보내기
+    //json형태로 데이터를 응답 {key : value}
+    res.json({ member: rows });
+  });
+});
+
+router.post("/insert", (req, res) => {
+  //사용자가 입력한 id, pw, nick 값 받기
+  //post -> body (body에 있는 데이터 가지고 오려면 parsing 설정 필요(app.js))
+  let { id, pw, nick } = req.body;
+
+  let sql = "insert into member values (?, ?, ?)";
+  conn.query(sql, [id, pw, nick], function (err, rows, fields) {
+    //affectedRows:영향 받은 행
+    console.log(rows.affectedRows);
+
+    //select로 다시 요청 > redirect
+    res.redirect("/select");
+  });
+});
+
+router.post("/update", (req, res) => {
+  let { id, pw, nick } = req.body;
+
+  let sql = "update member set pw = ?, nick = ? where id = ?";
+  conn.query(sql, [pw, nick, id], function (err, rows, fields) {
+    console.log(rows);
+
+    res.redirect("/select");
+  });
+});
+
+router.get("/delete/:id", (req, res) => {
+  let id = req.params.id;
+  console.log(id);
+
+  let sql = "delete from member where id = ?";
+  conn.query(sql, [id], function (err, rows, fields) {
+    console.log(rows);
+  });
+
+  res.redirect('/select')
 });
 
 module.exports = router;

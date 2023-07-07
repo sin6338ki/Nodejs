@@ -32,7 +32,7 @@ router.get("/setcookie", (req, res) => {
 router.get("/getcookies", (req, res) => {
   //req.cookie : 서명이 안 된 쿠키만 가지고 올 수 있음
   console.log(req.cookies.lunch);
-  console.log(req.signedCookies.nickname);
+  console.log(req.signedCookies.nickname); //서명된 쿠키 가져오기
 });
 
 //쿠키 삭제

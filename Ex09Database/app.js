@@ -16,6 +16,9 @@ nunjucks.configure("views", {
   watch: true, //html 파일이 제대로 연결되면 템플릿 엔진을 렌더링하겠다는 의미
 });
 
+//post요청시 body 데이터를 다루기 위해 파싱이 필요함
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", indexRouter); //localhost:8888/...
 
 app.set("port", process.env.PORT || 8888);

@@ -1,5 +1,5 @@
 //mySQL 연동
-//mysql12 : promises 사용이 가능한 형태
+//mysql2 : promises 사용이 가능한 형태
 const mysql = require("mysql2");
 
 const db_info = {

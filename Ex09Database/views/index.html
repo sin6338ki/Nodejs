@@ -20,17 +20,77 @@
             <td>{{item.id}}</td>
             <td>{{item.pw}}</td>
             <td>{{item.nick}}</td>
-            <td><button onclick="selectOne('{{item.id}}')">이 회원정보만 조회</button></td>
+            <td><button onclick="selectOne('{{item.id}}')">이 회원 정보만 조회</button></td>
+            <td><button onclick="update('{{item.id}}', '{{item.pw}}', '{{item.nick}}')">이 회원 정보 수정</button></td>
+            <!--삭제 버튼 클릭시 바로 삭제 요청을 하게끔
+                -> 주소창 : location / 전체장 : window / html : document 
+                -> location.href 주소값 변경
+            -->
+            <td><button onclick="location.href='delete/{{item.id}}'">이 회원 삭제</button></td>
         </tr>
         {% endfor %}
     </table>
+
+    <h3>특정 회원 정보 조회</h3>
+    <table border="1">
+        <tr>
+            <th>아이디</th>
+            <th>비밀번호</th>
+            <th>닉네임</th>
+        </tr>
+
+        <tr>
+            <td id="searchId"></td>
+            <td id="searchPw"></td>
+            <td id="searchNick"></td>
+        </tr>
+    </table>
+
+    <h3>회원 추가</h3>
+    <form action="insert" method="post">
+        <input type="text" name="id">
+        <input type="password" name="pw">
+        <input type="text" name="nick">
+        <input type="submit">
+    </form>
+
+    <h3>회원 정보 수정</h3>
+    <form action="update" method="post">
+        <input type="text" name="id" id="updateId" readonly>
+        <input type="password" name="pw" id="updatePw">
+        <input type="text" name="nick" id="updateNick">
+        <input type="submit">
+    </form>
+
+    
+
     <script>
         async function selectOne(id){
             
             const reqUrl = 'select/'+id //요청 url
-            await fetch(reqUrl).then((res)=>{
-                console.log(res);
+            
+            //fetch api -> res : promises 형태 (비동기 통신 할 때 사용)
+            //데이터가 다 넘어올 때까지 기다렸다가 
+            //데이터가 다 넘어오면 화면상에 출력
+            //--> json형태로 바꾸면 다루기 편한다.
+            //1.요청
+            //2.결과를 받는다. >> 결과값을 json형태로 변환
+            //3. json형태로 변환된 데이터 사용
+            await fetch(reqUrl).then((res)=>res.json()).then((res2)=>{
+                //res2.member ->  배열 형태
+                //res2.member[0]
+                console.log(res2);
+                document.getElementById('searchId').innerText = res2.member[0].id
+                document.getElementById('searchPw').innerText = res2.member[0].pw
+                document.getElementById('searchNick').innerText = res2.member[0].nick
             })
+        }
+
+        function update(id, pw, nick){
+            console.log(pw, id);
+            document.getElementById('updateId').value = id
+            document.getElementById('updatePw').value = pw
+            document.getElementById('updateNick').value = nick
         }
     </script>
 </body>

@@ -3,6 +3,9 @@ const app = express();
 const cookieRouter = require("./routes/cookie");
 const sessionRouter = require("./routes/session");
 const session = require("express-session");
+//session-file-store는 express-session과 같이 쓰임!
+//따라서 뒤에 session붙여주고, express-session아래에 정의
+const fileStore = require("session-file-store")(session);
 const cookieParser = require("cookie-parser");
 
 app.use(cookieParser("secretkey")); //쿠키 암호화 키 설정 (쿠키 라우터 사용 전 정의)
@@ -16,6 +19,8 @@ app.use(
     cookie: {
       httpOnly: true,
     },
+    //session-file-store 사용 > 객체 생성
+    store: new fileStore(),
   })
 ); //express-session 사용
 
