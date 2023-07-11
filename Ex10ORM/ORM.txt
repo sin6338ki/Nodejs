@@ -16,4 +16,6 @@ ex) Spring-JPA, node-Sequelize
  - username, pw
  - database : 스키마
  - host 
-6. User -> models 폴더
+6. User 필요한 객체 정의 -> models 폴더
+7. index -> 객체 사용 정의 -> models 폴더 
+8. app.js -> sequelize 설정
