@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <fieldset>
+        <legend>채팅 내용</legend>
+        <!-- class 지정 : mine -> 나의 채팅 내용 (오른쪽에 출력), other -> 다른 사람의 채팅 내용(왼쪽 출력) -->
+        <div id="chat-list">
+
+        </div>
+    </fieldset>
+    <!--비동기 방식
+    action : 동기방식 -->
+    <form id="chat-form">
+        <input type="text" id="chat-input" name="chatinput">
+        <input type="submit" value="전송">
+    </form>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        //클라이언트 소켓 객체 생성 
+        io.connect('http://localhost:8888/chat', { //chat : chat namespace 지정
+            path: '/socket.io'
+        })
+
+        //submit 버튼을 눌렀을 때 form의 input 내용을 가지고 와야한다!
+        document.getElementById('chat-form').addEventListener('submit', function (e) {
+            //submit 기본기능 : 동기 방식으로 서버로 요청 >> 막기
+            //e(event) > submit event
+            e.preventDefault() //서버로 요청하는 submit의 기본 기능을 막기
+            // console.log(e.target.chatinput.value); //서버로 보내서 DB로 저장
+            console.log(e)
+            if (e.target.chatinput.value) {
+                //서버로 채팅 내용 전송
+                axios.post('/chat/{{roomid}}/insert', {
+                    chat: e.target.chatinput.value
+                    //json형태로 전송
+                })
+                    .then(() => {
+                        console.log('success!');
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                    })
+            }
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>방제목</th>
+            <th>입장</th>
+        </tr>
+        <!--채팅방리스트 -> DB에 저장 -> DB 채팅방 개수만큼 출력-->
+        <!--nunjucks 반복문 사용-->
+        {%for room in rooms%}
+        <tr>
+            <td>{{room.title}}</td>
+            <td><button onclick="location.href='/chat/{{room.roomid}}'">입장</button></td>
+            <!--localhost:8888/chat/room1 으로 이동-->
+        </tr>
+        {%endfor%}
+    </table>
+</body>
+
+</html>

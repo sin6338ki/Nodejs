@@ -14,14 +14,14 @@ router.post('/login', async(req, res, next)=>{
         req.session.member = result
         req.session.save(function(){
             
-            if(member){
-                res.send('OK')
+            if(result){
+                res.redirect('/rooms')
             }else{
-                res.send('Fail')
+                res.redirect('/')
             }
     })}catch(err){
         next(err)
     }
 })
 
-module.exports = router;\
+module.exports = router;

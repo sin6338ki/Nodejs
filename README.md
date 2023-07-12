@@ -6,4 +6,6 @@ FullStack - Nodejs class
 - <a href="https://danyoujeong.tistory.com/144">2023.07.06~07 데이터베이스 연동하기</a>
 - <a href="https://danyoujeong.tistory.com/147">2023.07.10 Sequelize 다루기</a>
 - <a href="https://danyoujeong.tistory.com/148">2023.07.10 Socket 통신</a>
+- <a href="https://danyoujeong.tistory.com/151">2023.07.12 nunjucks</a>
 
+                                                

@@ -2,9 +2,12 @@ const express = require('express')
 const session = require('express-session')
 const fileStore = require('session-file-store')(session)
 const {sequelize} = require('./models')
+const webSocket = require('./socket')
 const indexRouter = require('./routes') //./routes/index
 const memberRouter = require('./routes/member')
+const chatRouter = require('./routes/chat')
 const nunjucks = require('nunjucks')
+const bodyParser = require('body-parser')
 const app = express()
 
 //force : false -> 기존 테이블은 건들지 않음
@@ -32,14 +35,18 @@ app.use(
         },
         store: new fileStore(),
     })
-)
+);
 
 app.use(express.urlencoded({extended:true}))
+app.use(bodyParser.json()) //json형식의 body 파싱
 
 app.use('/', indexRouter)
 app.use('/member', memberRouter)
+app.use('/chat', chatRouter)
 
 app.set('port', process.env.PORT||8888)
-app.listen(app.get('port'), ()=>{
+const server = app.listen(app.get('port'), ()=>{
     console.log(app.get('port'), '번 포트에서 서버 연결 대기중...');
 })
+
+webSocket(server)
