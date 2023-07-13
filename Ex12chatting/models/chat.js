@@ -37,7 +37,7 @@ module.exports = class Chat extends Sequelize.Model{
     static associate(db){ //테이블 관계 설정
         //member(id) --- chat(user)
         //   1        :    N
-        //   hasMany            belongsTo
-        db.Chat.belongsTo(db.Member, {foreignKey:'userid', targetKey:'id'})
+        //   hasMany       belongsTo
+        db.Chat.belongsTo(db.Member, {foreignKey:'userid', targetId:'id'})
     }
 }

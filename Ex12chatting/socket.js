@@ -1,11 +1,16 @@
 const socketIO = require('socket.io')
 
 //server : app에서 생성한 express server
-module.exports = (server)=>{
+//app : 어디서든 io 객체 사용할 수 있도록 app 가져왔음
+module.exports = (server, app)=>{
 
     //express server - socket 연결
     //1) 소켓 객체 생성
     const io = socketIO(server, {path : '/socket.io'})
+    // 소켓io 객체를 외부(라우터)에서 사용할 수 있도록 만들기  > app에 변수 설정
+    // -> app을 가져와서 사용해야 함
+    app.set('io', io)
+
     //2) io 객체를 가지고 접속 성공, 접속 해제, 에러 이벤트 추가
     // 라우팅 (-> 네임스페이스 : 기능 구분, 경로에 따라 다른 곳에서 처리)
     // - 채팅 기능 ->  /chat
@@ -24,7 +29,7 @@ module.exports = (server)=>{
         const roomid = ref.split('/')[ref.split('/').length-1];
         console.log(roomid); 
 
-        //roomid에 따라서 룸을 만들어줌
+        //roomid에 따라서 룸을 만들어줌 - roomid가 같으면 같은 방으로 들어감!
         socket.join(roomid)
 
         //클라이언트마다 소켓 생성되므로 socket에 이벤트 부여
@@ -34,7 +39,8 @@ module.exports = (server)=>{
 
         //chat 이벤트 : 사용자가 입력한 값(data)을 뿌려줌
         socket.on('chat', (data)=>{
-
+            // console.log('socket.js : ',data);
+            socket.to(roomid).emit(data)
         })
 
     }) //채팅 연결 이벤트
